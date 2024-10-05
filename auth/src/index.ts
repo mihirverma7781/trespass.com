@@ -1,4 +1,5 @@
 import express from "express";
+import "express-async-errors";
 import {
   CurrentUserRouter,
   SigninRouter,
@@ -6,6 +7,7 @@ import {
   SignupRouter,
 } from "./routes";
 import { errorHandler } from "./middlewares/error-handler";
+import { NotFoundError } from "./errors/not-found-error";
 
 const PORT = 8001;
 
@@ -17,6 +19,10 @@ app.use("/api/users", CurrentUserRouter);
 app.use("/api/users", SigninRouter);
 app.use("/api/users", SignoutRouter);
 app.use("/api/users", SignupRouter);
+
+app.get("*", async () => {
+  throw new NotFoundError();
+});
 
 // Error Middleware
 app.use(errorHandler);
