@@ -1,0 +1,11 @@
+# how dockerfile and images are related?
+    When you run docker build -t <image_name>, Docker looks for a file named Dockerfile in the current directory (unless specified otherwise).
+    
+    Relationship:
+        Dockerfile → used to build → Docker Image → can be run as → Docker Container
+
+
+# What is context do in skaffold?
+    ANS=> In your skaffold.yaml file, the context field under build.artifacts refers to the build context for Docker.
+          The build context is the directory that Docker will use as the reference point when building the container image.
+
