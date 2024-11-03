@@ -1,2 +1,8 @@
 # Why do we need express.json() ?
     Ans => express.json() is a built in middleware function in Express starting from v4.16.0. It parses incoming JSON requests and puts the parsed data in req.body.
+
+# How does async errors got handled in Express ?
+    If we have an sync error and we want to throw new error in route handler (middleware) express handles that error on its own, but if we are using an async route handler
+    in express it will not handle the error instead we have to use the next with our error.
+
+    NOTE: if we only want to use throw keyword in route handler we can use a package known as "express-async-errors"
