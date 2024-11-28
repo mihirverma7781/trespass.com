@@ -3,6 +3,7 @@ import { signupValidator } from "./validators/validator";
 import { validationResult } from "express-validator";
 import { RequestValidationError } from "../errors/request-validation-error";
 import User from "../database/models/user";
+import BadRequestError from "../errors/bad-request-error";
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.post(
 
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
-      return res.status(400).json({ message: "Invalid email" });
+      throw new BadRequestError("User already exists");
     }
 
     const newUser = User.build({ email: email, password: password });
