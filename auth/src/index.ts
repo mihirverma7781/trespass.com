@@ -1,5 +1,6 @@
 import express from "express";
 import "express-async-errors";
+import cookieSession from "cookie-session";
 import {
   CurrentUserRouter,
   SigninRouter,
@@ -13,7 +14,14 @@ import AuthDatabase from "./database/connect-db";
 const PORT = 8001;
 
 const app = express();
+app.set("trust proxy", true);
 app.use(express.json());
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+);
 
 // Server Middlewares
 app.use("/api/users", CurrentUserRouter);
@@ -37,6 +45,9 @@ app.use(errorHandler);
 // Server Listener & Database Connection
 const startServer = async () => {
   try {
+    if (!process.env.JWT_KEY) {
+      throw new Error("Environment variable not specified: JWT_KEY");
+    }
     const databaseInstance = AuthDatabase.getInstance();
     await databaseInstance.connectDatabase();
 

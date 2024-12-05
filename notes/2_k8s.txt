@@ -9,3 +9,5 @@
     ANS=> In your skaffold.yaml file, the context field under build.artifacts refers to the build context for Docker.
           The build context is the directory that Docker will use as the reference point when building the container image.
 
+# Creating global secrets using kubectl
+    kubectl create secret generic jwt-secret --from-literal=jwt=jwtsecret

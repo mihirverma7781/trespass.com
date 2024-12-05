@@ -16,6 +16,12 @@ spec:
       containers:
         - name: auth
           image: mihir404/trespass-auth
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
 
 ---
 # Service
