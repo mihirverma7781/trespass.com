@@ -10,4 +10,14 @@ const signupValidator = () => {
   ];
 };
 
-export { signupValidator };
+const signinValidator = () => {
+  return [
+    body("email").isEmail().withMessage("Email must be valid"),
+    body("password").trim().isLength({
+      min: 8,
+      max: 20,
+    }),
+  ];
+};
+
+export { signupValidator, signinValidator };
