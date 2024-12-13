@@ -9,7 +9,7 @@ router.get("/currentuser", currentUser, async (req: Request, res: Response) => {
   const currentUser = req.currentUser;
 
   return res.status(200).json({
-    message: "Authorization successfull",
+    message: currentUser ? "Authorization successfull" : "Authorization failed",
     data: {
       currentUser: currentUser || null,
     },

@@ -2,15 +2,7 @@ import request from "supertest";
 import app from "../../app";
 
 it("[API REQUEST] Returns status=200 on successfull current user fetch", async () => {
-  const authResponse = await request(app)
-    .post("/api/users/signup")
-    .send({
-      email: "user@example.com",
-      password: "password",
-    })
-    .expect(201);
-
-  const cookie: any = authResponse.get("Set-Cookie");
+  const cookie = await global.signin();
 
   const response = await request(app)
     .get("/api/users/currentuser")
@@ -19,4 +11,11 @@ it("[API REQUEST] Returns status=200 on successfull current user fetch", async (
 
   expect(response.body.message).toBe("Authorization successfull");
   expect(response.body.data.currentUser.email).toBe("user@example.com");
+});
+
+it("[API REQUEST] Returns status=401 if not authenticated ", async () => {
+  const response = await request(app).get("/api/users/currentuser").expect(200);
+
+  expect(response.body.message).toBe("Authorization failed");
+  expect(response.body.data.currentUser).toBe(null);
 });
