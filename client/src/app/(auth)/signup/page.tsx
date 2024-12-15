@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import axios from "axios";
+import { toast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   firstname: z
@@ -56,12 +57,17 @@ const Signup = () => {
   });
 
   const submitForm = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    const response = await axios.post("/api/users/signup", values);
-    if (response.status === 201) {
+    try {
+      console.log(values);
+      const response = await axios.post("/api/users/signup", values);
       console.log("success");
-    } else {
-      console.log("failed");
+    } catch (error: any) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error.response.data.errors[0].message,
+      });
     }
   };
 
