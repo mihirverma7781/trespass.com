@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import axios from "axios";
 
 const formSchema = z.object({
   firstname: z
@@ -54,8 +55,14 @@ const Signup = () => {
     },
   });
 
-  const submitForm = (values: z.infer<typeof formSchema>) => {
+  const submitForm = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    const response = await axios.post("/api/users/signup", values);
+    if (response.status === 201) {
+      console.log("success");
+    } else {
+      console.log("failed");
+    }
   };
 
   return (
@@ -175,7 +182,10 @@ const Signup = () => {
                 }}
               ></FormField>
 
-              <Button className="rounded-2xl text-white text-sm bg-blue-700 h-[50px] mt-4 hover:bg-blue-600">
+              <Button
+                type="submit"
+                className="rounded-2xl text-white text-sm bg-blue-700 h-[50px] mt-4 hover:bg-blue-600"
+              >
                 Create an account
               </Button>
             </form>
