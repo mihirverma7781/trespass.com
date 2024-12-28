@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   watchOptions: {
     pollIntervalMs: 300,
   },
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
 };
 
 export default nextConfig;

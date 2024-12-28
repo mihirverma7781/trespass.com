@@ -1,7 +1,13 @@
-import type { Metadata } from "next";
+// app/layout.tsx
+
+import { headers } from "next/headers";
+import buildClient from "@/api/build-client";
 import { Toaster } from "@/components/ui/toaster";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/custom/Header";
+import React, { ReactElement } from "react";
+import { AuthProvider } from "@/contexts/auth-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,21 +24,44 @@ const poppins = Poppins({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Tresspass | Get to watch your favourites",
   description: "Ticket reselling platform",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+interface UserData {
+  id: string;
+  name: string;
+}
+
+interface RootLayoutProps {
+  children: ReactElement;
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const headersList = await headers();
+  let userData: UserData | null = null;
+
+  try {
+    const response = await buildClient({ headers: headersList }).get(
+      "/api/users/currentuser"
+    );
+    userData = response?.data?.data?.currentUser || null;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    userData = null;
+  }
+
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        <>{children}</>
-        <Toaster />
+        {/* Pass userData to AuthProvider */}
+        <AuthProvider userData={userData}>
+          <Header user={userData} />
+          <main>{children}</main>
+          <footer>Footer</footer>
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

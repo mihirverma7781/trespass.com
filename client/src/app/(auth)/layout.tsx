@@ -1,3 +1,4 @@
+import Header from "@/components/custom/Header";
 import React from "react";
 
 interface IProps {
@@ -6,15 +7,11 @@ interface IProps {
 
 const AuthLayout: React.FC<IProps> = ({ children }) => {
   return (
-    <div className="bg-gray-50">
-      <header className="">
-        <p className="">TressPass</p>
-      </header>
-      <main className="px-4 my-10 w-full flex justify-center xl:max-w-[1200px] xl:px-0 xl:mx-auto">
+    <main className="bg-gray-100 min-h-screen">
+      <section className="px-4 my-10 w-full flex justify-center min-h-[calc(100vh-200px)] xl:max-w-[1200px] xl:px-0 xl:mx-auto">
         {children}
-      </main>
-      <footer>footer</footer>
-    </div>
+      </section>
+    </main>
   );
 };
 

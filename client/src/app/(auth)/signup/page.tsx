@@ -1,25 +1,21 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import axios, { Axios, AxiosError, AxiosResponse } from "axios";
+import { toast } from "@/hooks/use-toast";
+import useRequest from "@/hooks/use-request";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+
+import { Form, FormDescription, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import axios from "axios";
-import { toast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   firstname: z
@@ -46,6 +42,34 @@ const formSchema = z.object({
 });
 
 const Signup = () => {
+  const router = useRouter();
+  const { doRequest, errors, isLoading } = useRequest({
+    url: "/api/users/signup",
+    method: "post",
+    onSuccess: (response: AxiosResponse) => {
+      toast({
+        title: "Signup Success",
+        description: response.data.message,
+      });
+      router.push("/");
+    },
+
+    onError: (error: any) =>
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.response?.data?.errors?.map(
+          (err: any, idx: any) => {
+            return (
+              <p key={idx} className="mt-1">
+                {err.message}
+              </p>
+            );
+          }
+        ),
+      }),
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,16 +82,10 @@ const Signup = () => {
 
   const submitForm = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log(values);
-      const response = await axios.post("/api/users/signup", values);
-      console.log("success");
+      const response = await doRequest(values);
+      console.log("response", response);
     } catch (error: any) {
       console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error.response.data.errors[0].message,
-      });
     }
   };
 

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import useRequest from "@/hooks/use-request";
 import { z } from "zod";
 import {
   Form,
@@ -18,6 +19,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { AxiosResponse } from "axios";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -31,7 +35,35 @@ const formSchema = z.object({
     .max(20, { message: "Password should be between 8-20 characters" }),
 });
 
-const Signin = () => {
+const Signin = ({ userData }: { userData: any }) => {
+  console.log("signin", userData);
+  const router = useRouter();
+  const { doRequest, errors, isLoading } = useRequest({
+    url: "/api/users/signin",
+    method: "post",
+    onSuccess: (response: AxiosResponse) => {
+      toast({
+        title: "Signin Success",
+        description: response.data.message,
+      });
+      window.location.href = "/";
+    },
+
+    onError: (error: any) =>
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.response?.data?.errors?.map(
+          (err: any, idx: any) => {
+            return (
+              <p key={idx} className="mt-1">
+                {err.message}
+              </p>
+            );
+          }
+        ),
+      }),
+  });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,16 +72,21 @@ const Signin = () => {
     },
   });
 
-  const submitForm = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const submitForm = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const response = await doRequest(values);
+      console.log("response", response);
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className=" bg-white w-full flex items-center justify-center lg:justify-between rounded-2xl">
+    <div className=" bg-white w-full flex items-center justify-center lg:justify-between rounded-2xl max-h-max my-auto">
       <div className="w-full lg:w-1/2">
         <div className=" flex flex-col gap-5 w-full md:max-w-[400px] mx-auto p-5">
           <h1 className="font-semibold text-slate-900 text-2xl lg:text-3xl">
-            Signin
+            Signin {JSON.stringify(userData)}
           </h1>
           <p className="mt-[-12px] text-sm text-gray-500">
             Create a new account for you
