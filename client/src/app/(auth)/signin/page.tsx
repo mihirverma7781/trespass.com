@@ -82,7 +82,7 @@ const Signin = ({ userData }: { userData: any }) => {
   };
 
   return (
-    <div className=" bg-white w-full flex items-center justify-center lg:justify-between rounded-2xl max-h-max my-auto">
+    <div className="  mt-10 bg-white w-full flex items-center justify-center lg:justify-between rounded-2xl max-h-max my-auto">
       <div className="w-full lg:w-1/2">
         <div className=" flex flex-col gap-5 w-full md:max-w-[400px] mx-auto p-5">
           <h1 className="font-semibold text-slate-900 text-2xl lg:text-3xl">

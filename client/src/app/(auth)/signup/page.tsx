@@ -51,7 +51,7 @@ const Signup = () => {
         title: "Signup Success",
         description: response.data.message,
       });
-      router.push("/");
+      window.location.href = "/";
     },
 
     onError: (error: any) =>
@@ -90,7 +90,7 @@ const Signup = () => {
   };
 
   return (
-    <div className=" bg-white w-full min-h-[calc(100vh-100px)] flex items-center justify-center lg:justify-between rounded-2xl">
+    <div className=" mt-10 bg-white w-full min-h-[calc(100vh-100px)] flex items-center justify-center lg:justify-between rounded-2xl">
       <div className="w-full lg:w-1/2">
         <div className=" flex flex-col gap-5 w-full md:max-w-[400px] mx-auto p-5">
           <h1 className="font-semibold text-slate-900 text-2xl lg:text-3xl">
