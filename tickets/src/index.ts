@@ -1,7 +1,7 @@
 import app from "./app";
 import AuthDatabase from "./database/connect-db";
 
-const PORT = 8001;
+const PORT = 8002;
 // Server Listener & Database Connection
 const startServer = async () => {
   try {

@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose, { Mongoose } from "mongoose";
 import request from "supertest";
@@ -30,17 +31,26 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-const signin = async () => {
-  const response = await request(app)
-    .post("/api/users/signup")
-    .send({
-      email: "user@example.com",
-      password: "password",
-    })
-    .expect(201);
+const signin = () => {
+  // build a JWT payload. {id, email, iat}
+  const payload = {
+    id: "1389ryondfoe",
+    email: "test@test.com",
+  };
+  // create JWT token
+  const token = jwt.sign(payload, process.env.JWT_KEY!);
 
-  const cookie: any = response.get("Set-Cookie");
-  return cookie;
+  // build session object, {jwt: MY_JWT}
+  const session = { jwt: token };
+
+  // turn that session into json
+  const sessionJSON = JSON.stringify(session);
+
+  // take json and encode it into  base64 string
+  const base64 = Buffer.from(sessionJSON).toString("base64");
+  console.log(base64);
+  // return string with the encoded data
+  return [`session=${base64}`];
 };
 
 // You can now use the function anywhere
