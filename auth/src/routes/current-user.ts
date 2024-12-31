@@ -1,9 +1,6 @@
 import express, { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import BadRequestError from "../errors/bad-request-error";
-import { currentUser } from "../middlewares/current-user";
-import { requireAuth } from "../middlewares/require-auth";
 const router = express.Router();
+import { currentUser } from "@mvtrespass/common";
 
 router.get("/currentuser", currentUser, async (req: Request, res: Response) => {
   const currentUser = req.currentUser;

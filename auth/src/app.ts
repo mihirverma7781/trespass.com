@@ -2,8 +2,7 @@ import express from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 
-import { NotFoundError } from "./errors/not-found-error";
-import { errorHandler } from "./middlewares/error-handler";
+import { errorHandler, NotFoundError } from "@mvtrespass/common";
 import {
   CurrentUserRouter,
   SigninRouter,
