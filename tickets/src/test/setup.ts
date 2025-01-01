@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose, { Mongoose } from "mongoose";
-import request from "supertest";
-import app from "../app";
 
 let mongo: MongoMemoryServer;
 beforeAll(async () => {
@@ -10,7 +8,7 @@ beforeAll(async () => {
 
   mongo = await MongoMemoryServer.create();
   const mongoURI = mongo.getUri();
-
+  console.log("Mongo URI:", mongoURI);
   await mongoose.connect(mongoURI);
 });
 
@@ -48,7 +46,6 @@ const signin = () => {
 
   // take json and encode it into  base64 string
   const base64 = Buffer.from(sessionJSON).toString("base64");
-  console.log(base64);
   // return string with the encoded data
   return [`session=${base64}`];
 };

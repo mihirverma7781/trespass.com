@@ -8,7 +8,7 @@ import {
   NotFoundError,
   requireAuth,
 } from "@mvtrespass/common";
-import { createTicketRouter } from "./routes";
+import { CreateTicketRouter } from "./routes";
 
 const app = express();
 app.set("trust proxy", true);
@@ -21,12 +21,11 @@ app.use(
 );
 
 // Server Middlewares
-app.use(currentUser);
-app.use("/api", createTicketRouter);
+app.use("/api/tickets", CreateTicketRouter);
 
-app.get("/api/users/health-check", (req, res) => {
+app.get("/api/tickets/health-check", (req, res) => {
   return res.status(200).json({
-    message: "Server Running",
+    message: "Tickets Server Running",
   });
 });
 

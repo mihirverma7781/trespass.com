@@ -38,5 +38,5 @@ spec:
   ports:
     - name: tickets
       protocol: TCP
-      port: 8002
-      targetPort: 8002
+      port: 8001
+      targetPort: 8001

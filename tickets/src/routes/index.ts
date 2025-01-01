@@ -1,3 +1,3 @@
-import createTicketRouter from "./new";
+import CreateTicketRouter from "./new";
 
-export { createTicketRouter };
+export { CreateTicketRouter };

@@ -1,7 +1,7 @@
 import app from "./app";
 import AuthDatabase from "./database/connect-db";
 
-const PORT = 8002;
+const PORT = 8001;
 // Server Listener & Database Connection
 const startServer = async () => {
   try {
@@ -15,7 +15,7 @@ const startServer = async () => {
     await databaseInstance.connectDatabase();
 
     app.listen(PORT, () => {
-      console.log(`Auth Service Listening on ${PORT}`);
+      console.log(`Tickets Service Listening on ${PORT}`);
     });
   } catch (error) {
     console.error("Failed to start the server:", error);
