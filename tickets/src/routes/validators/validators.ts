@@ -8,6 +8,11 @@ const newTicketValidator = () => {
         gt: 0,
       })
       .withMessage("Price must be greater than 0"),
+    body("quantity")
+      .isFloat({
+        gt: 0,
+      })
+      .withMessage("Quantity must be greater than 0"),
   ];
 };
 
