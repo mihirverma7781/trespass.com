@@ -11,3 +11,6 @@
 
 # Creating global secrets using kubectl
     kubectl create secret generic jwt-secret --from-literal=jwt=jwtsecret
+
+# Port forwarding
+     kubectl port-forward nats-depl-86b6b46d57-b9mgd 4222:4222
