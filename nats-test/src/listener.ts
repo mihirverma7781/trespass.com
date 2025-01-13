@@ -6,6 +6,10 @@ const client = nats.connect("trespass", randomBytes(4).toString("hex"), {
   url: "http://localhost:4222",
 });
 
+// const client = nats.connect("trespass", "pest", {
+//   url: "http://localhost:4222",
+// });
+
 client.on("connect", () => {
   console.log("Listener connected to NATS ");
 
@@ -14,7 +18,11 @@ client.on("connect", () => {
     process.exit();
   });
 
-  const options = client.subscriptionOptions().setManualAckMode(true);
+  const options = client
+    .subscriptionOptions()
+    .setManualAckMode(true)
+    .setDeliverAllAvailable()
+    .setDurableName("account-service");
 
   const subscription = client.subscribe(
     "ticket:created",
