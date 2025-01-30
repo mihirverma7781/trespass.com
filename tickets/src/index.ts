@@ -1,6 +1,6 @@
 import app from "./app";
 import AuthDatabase from "./database/connect-db";
-import NatsWrapper from "./events/nats-wrapper";
+import natsInstance from "./events/nats-wrapper";
 
 const PORT = 8001;
 // Server Listener & Database Connection
@@ -15,7 +15,6 @@ const startServer = async () => {
     const databaseInstance = AuthDatabase.getInstance();
     await databaseInstance.connectDatabase();
 
-    const natsInstance = NatsWrapper.getInstance();
     await natsInstance.connect("trespass", "test", "http://nats-srv:4222");
     natsInstance.handleExit();
 

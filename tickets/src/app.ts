@@ -24,16 +24,16 @@ app.use(
   })
 );
 
-// Server Middlewares
-app.use("/api/tickets", CreateTicketRouter);
-app.use("/api/tickets", ShowTicketRouter);
-app.use("/api/tickets", UpdateTicketRouter);
-
 app.get("/api/tickets/health-check", (req, res) => {
   return res.status(200).json({
     message: "Tickets Server Running",
   });
 });
+
+// Server Middlewares
+app.use("/api/tickets", CreateTicketRouter);
+app.use("/api/tickets", ShowTicketRouter);
+app.use("/api/tickets", UpdateTicketRouter);
 
 app.get("*", async () => {
   throw new NotFoundError();

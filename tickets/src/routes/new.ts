@@ -3,10 +3,9 @@ import express, { Request, Response } from "express";
 import { newTicketValidator } from "./validators/validators";
 import Ticket from "../database/models/ticket";
 import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
-import NatsWrapper from "../events/nats-wrapper";
+import natsInstance from "../events/nats-wrapper";
 
 const router = express.Router();
-const natsInstance = NatsWrapper.getInstance();
 
 router.post(
   "/create",
@@ -24,7 +23,7 @@ router.post(
       userId: req.currentUser!.id,
     });
     await newTicket.save();
-    new TicketCreatedPublisher(natsInstance.client).publish({
+    await new TicketCreatedPublisher(natsInstance.client).publish({
       id: newTicket.id,
       title: newTicket.title,
       quantity: newTicket.quantity,

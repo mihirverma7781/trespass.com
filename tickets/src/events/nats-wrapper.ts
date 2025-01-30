@@ -4,7 +4,7 @@ class NatsWrapper {
   private _client?: Stan;
   private static instance: NatsWrapper;
 
-  private constructor() {}
+  constructor() {}
 
   get client() {
     if (!this._client) {
@@ -57,4 +57,4 @@ class NatsWrapper {
   }
 }
 
-export default NatsWrapper;
+export default new NatsWrapper();

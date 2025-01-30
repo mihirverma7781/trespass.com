@@ -1,7 +1,9 @@
 import request from "supertest";
 import app from "../../app";
 import Ticket from "../../database/models/ticket";
+// import NatsWrapperMock from "../../events/__mocks__/nats-wrapper";
 
+jest.mock("../../events/nats-wrapper.ts");
 it("[API REQUEST] Returns status=200 for listening to /api/tickets for POST request", async () => {
   const response = await request(app).post("/api/tickets/create").send({});
   expect(response.status).not.toBe(404);
