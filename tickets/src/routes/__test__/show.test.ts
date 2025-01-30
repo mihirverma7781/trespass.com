@@ -2,6 +2,8 @@ import request from "supertest";
 import app from "../../app";
 import Ticket from "../../database/models/ticket";
 
+jest.mock("../../events/nats-wrapper");
+
 it("[API REQUEST] Returns status=404 if the ticket is not found", async () => {
   const response = await request(app).post("/api/tickets/dummyticketid").send();
   expect(response.status).toBe(404);

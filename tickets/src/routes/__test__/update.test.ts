@@ -2,8 +2,9 @@ import request from "supertest";
 import app from "../../app";
 import Ticket from "../../database/models/ticket";
 
-it("[API REQUEST] Returns status=200 if ticket is updated successfully", async () => {
+jest.mock("../../events/nats-wrapper");
 
+it("[API REQUEST] Returns status=200 if ticket is updated successfully", async () => {
   let tickets = await Ticket.find({});
   expect(tickets.length).toEqual(0);
 

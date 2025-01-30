@@ -13,12 +13,12 @@ class NatsWrapper {
     return this._client;
   }
 
-  public static getInstance(): NatsWrapper {
-    if (!NatsWrapper.instance) {
-      NatsWrapper.instance = new NatsWrapper();
-    }
-    return NatsWrapper.instance;
-  }
+  // public static getInstance(): NatsWrapper {
+  //   if (!NatsWrapper.instance) {
+  //     NatsWrapper.instance = new NatsWrapper();
+  //   }
+  //   return NatsWrapper.instance;
+  // }
 
   async connect(
     clustureId: string,

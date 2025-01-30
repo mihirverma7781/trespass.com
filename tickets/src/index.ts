@@ -12,10 +12,23 @@ const startServer = async () => {
     if (!process.env.MONGO_URI) {
       throw new Error("Environment variable not specified: MONGO_URI");
     }
+    if (!process.env.NATS_CLIENT_ID) {
+      throw new Error("Environment variable not specified: NATS_CLIENT_ID");
+    }
+    if (!process.env.NATS_URI) {
+      throw new Error("Environment variable not specified: NATS_URI");
+    }
+    if (!process.env.NATS_CLUSTURE_ID) {
+      throw new Error("Environment variable not specified: NATS_CLUSTURE_ID");
+    }
     const databaseInstance = AuthDatabase.getInstance();
     await databaseInstance.connectDatabase();
 
-    await natsInstance.connect("trespass", "test", "http://nats-srv:4222");
+    await natsInstance.connect(
+      process.env.NATS_CLUSTURE_ID,
+      process.env.NATS_CLIENT_ID,
+      process.env.NATS_URI
+    );
     natsInstance.handleExit();
 
     app.listen(PORT, () => {
